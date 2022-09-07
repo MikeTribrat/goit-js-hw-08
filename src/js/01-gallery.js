@@ -1,37 +1,34 @@
 // Add imports above this line
 import { galleryItems } from './gallery-items';
-import SimpleLightbox from "simplelightbox";
-import "simplelightbox/dist/simple-lightbox.min.css";
-// Change code below this line
+import SimpleLightbox from 'simplelightbox';
+import 'simplelightbox/dist/simple-lightbox.min.css';
+import '../sass/main.scss';
+
 console.log(galleryItems);
 
-const galleryEl = document.querySelector('.gallery'); 
+const galleryRef = document.querySelector('.gallery');
+let instance;
 
-// 1. Создание и рендер разметки по массиву данных galleryItems
+// creates img container
+const createGalleryItem = ({ preview, original, description }) => {
+  const resultLink = document.createElement('a');
+  resultLink.classList.add('gallery__item');
+  resultLink.href = original;
 
-const galleryMarkup = galleryItems.map(({ original, preview, description }) => 
-    `<li class="gallery__item">
-        <a class="gallery__link" href="${original}">
-        <img
-            class="gallery__image"
-            src="${preview}"
-            alt="${description}"
-            />
-        </a>
-    </li>`)
-    .join("");
-
-galleryEl.insertAdjacentHTML("beforeend", galleryMarkup);
-
-console.log(galleryEl);
-
-//  3. Инициализация библиотеки после того, как элементы галереи созданы и добавлены в `div.gallery`.
-
-const lightboxOptions = {
-    captions: true,
-    captionsData: "alt",
-    captionDelay: 250,
+  const galleryItem = `<img class="gallery__image" src="${preview}" alt="${description}"/>`;
+  resultLink.insertAdjacentHTML('afterbegin', galleryItem);
+  return resultLink;
 };
 
-const lightboxGallery = new SimpleLightbox(".gallery a", lightboxOptions);
-console.log(galleryItems);
+// render all galleries items
+galleryRef.append(...galleryItems.map(i => createGalleryItem(i)));
+
+var lightbox = new SimpleLightbox('.gallery a', {
+  overlayOpacity: 1,
+  captions: true,
+  captionSelector: 'img',
+  captionType: 'attr',
+  captionsData: 'alt',
+  captionPosition: 'bottom',
+  captionDelay: 250,
+});
