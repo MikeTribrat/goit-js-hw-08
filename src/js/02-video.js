@@ -1,4 +1,4 @@
-import '/sass/main.scss';
+import '../sass/main.scss';
 import Player from '@vimeo/player';
 import { save, load } from './localStorageService';
 import _ from 'lodash';

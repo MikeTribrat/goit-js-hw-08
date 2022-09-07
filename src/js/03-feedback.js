@@ -1,4 +1,4 @@
-import '/sass/main.scss';
+import '../sass/main.scss';
 import { save, load } from './localStorageService';
 import _ from 'lodash';
 
